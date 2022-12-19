@@ -54,4 +54,15 @@ int main(int argc, char** argv) {
 
   // Extract the enhanced image from the output tensor
   cv::Mat image_enhanced(256, 256, CV_8UC1);
-  auto output_map = outputs[0].
+  auto output_map = outputs[0]..tensor<float, 4>();
+for (int y = 0; y < 256; ++y) {
+for (int x = 0; x < 256; ++x) {
+image_enhanced.at<uchar>(y, x) = static_cast<uchar>(output_map(0, y, x, 0) * 255.0);
+}
+}
+
+// Save the enhanced image
+cv::imwrite("output.jpg", image_enhanced);
+
+return 0;
+}
